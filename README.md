@@ -1,8 +1,8 @@
-# UptimeKuma Push
-PowerShell script to leverage UptimeKuma's push feature for monitoring servers on a network Untime Kuma can't communicate with. Example: Your Uptime Kuma server is in the cloud but you want to monitor servers and devices on your local network.
+# Uptime Kuma Push
+This is a PowerShell script that you can use with Uptime Kuma's push feature for monitoring servers on a network Uptime Kuma can't communicate with. Example: Your Uptime Kuma server is in the cloud but you want to monitor servers and devices on your local network.
 
 ## Features
-* Configuration is done in UptimeKumaPush.json
+* All configuration is done in UptimeKumaPush.json
 * Multiple distinct monitors
 * Group monitors so that if any one child monitor fails it reports back to the single Uptime Kuma monitor
 * Set the script to loop or use your scheduled task to re-run the script
