@@ -1,19 +1,19 @@
 {
     "settings":{
-        "notify_url": "https://myuptimekuma.host/api/push/{ID}?status={STATUS}&msg={MSG}&ping={PING}", 
+        "push_url": "https://myuptimekuma.host/api/push/{ID}?status={STATUS}&msg={MSG}&ping={PING}", 
         "loop": false,
         "loop_delay": "30",
-        "notify_dead": true
+        "push_if_down": true
     
     },
     "monitors":[
         {"id": "2e7mMkKP873", "type": "ping", "host": "8.8.8.8"},
         {"id": "9ibuQC6pcWX", "type": "port", "host": "ss64.com", "port": 22},
-        {"id": "mHY9sbhASAP", "type": "keyword", "host": "https://ss64.com/ps/get-help.html", "search": "Syntax"},
+        {"id": "mHY9sbhASAP", "type": "website", "host": "https://ss64.com/ps/get-help.html", "search": "Syntax"},
         {"id": "GSgX3MyQ5T7", "group":[
             {"type": "ping", "host": "1.1.1.1"},
             {"type": "port", "host": "ss64.com", "port": 22},
-            {"type": "keyword", "host": "https://ss64.com/nt/cmd.html", "search": "Start a new CMD"}
+            {"type": "website", "host": "https://ss64.com/nt/cmd.html", "search": "Start a new CMD"}
 
         ]
     }

@@ -7,7 +7,7 @@ function Test-Port {
         $obj
     )
 
-    if($obj.timeout){$timeout = $obj.timeout} Else {$timeout = 1000}
+    if($obj.timeout){$timeout = $obj.timeout} Else {$timeout = 2000}
 
     $tcpClient = New-Object System.Net.Sockets.TcpClient
     return $tcpClient.ConnectAsync($obj.host, $obj.port).Wait($timeout)
@@ -16,14 +16,14 @@ function Test-Ping {
     param (
         $obj
     )
-    if($obj.timeout){$timeout = $obj.timeout} Else {$timeout = 1000}
+    if($obj.timeout){$timeout = $obj.timeout} Else {$timeout = 2000}
 
     $return = Get-CimInstance -ClassName Win32_PingStatus -Filter "(Address='$($obj.host)') and timeout=$timeout" | Select-Object -Property Address,StatusCode,ResponseTime
     If($return.StatusCode -eq 0 -and $return.ResponseTime -eq 0){$return.ResponseTime = 1}
 
     return $return.ResponseTime
 }
-function Test-Keyword {
+function Test-Website {
     param (
         $obj
     )
@@ -59,7 +59,7 @@ function Test-Host {
 
     Switch ($monitor.type){
         "ping" {$result = Test-Ping $monitor}
-        "keyword" {$result = Test-Keyword $monitor}
+        "website" {$result = Test-Website $monitor}
         "port" {$result = Test-Port $monitor}
     }
     
@@ -73,14 +73,14 @@ function Test-Host {
 While ($true){
     $config = Get-Content -Path "$PSScriptRoot\$((Get-Item $PSCommandPath ).Basename).json" | ConvertFrom-Json
 
-    $notify_url = if($monitor.notify_url){ $monitor.notify_url } Else {$config.settings.notify_url}
-    $notify_dead = if($monitor.notify_dead -ne $null){ $monitor.notify_dead } Else {$config.settings.notify_dead}
-
     if($config){
         "Total monitors: $($config.monitors.count)"
 
+        $push_url = if($monitor.push_url){ $monitor.push_url } Else {$config.settings.push_url}
+        $push_if_down = if($monitor.push_if_down){ $monitor.push_if_down } Else {$config.settings.push_if_down}
+
         # Loop through each monitor
-        $config.monitors | ForEach-Object{      
+        $config.monitors | ForEach-Object{
             $monitor = $_
             Write-Host "Processing Monitor: $monitor"
             $message = ""
@@ -121,23 +121,23 @@ While ($true){
                 $message = "$($_.type):$($_.host)"
             }
 
-            # If notify_dead is set to false and the monitor is down, dont send a notification, continue loop
-            if($result -eq $false -and $notify_dead -eq $false){ return }
+            # If push_if_down is set to false and the monitor is down, dont send a notification, continue loop
+            if($result -eq $false -and $push_if_down -eq $false){ return }
             # Set status to up or down based on result
             if($result){ $status = "up" } else { $status = "down"}
 
-            # Encode the message and replace variables in notify_url
+            # Encode the message and replace variables in push_url
             $message = [System.Web.HttpUtility]::UrlEncode($message)
-            $notify_url_updated = $notify_url.replace('{ID}',$monitor.id).replace('{STATUS}',$status).replace('{MSG}',$message).replace('{PING}',$ping)
+            $push_url_updated = $push_url.replace('{ID}',$monitor.id).replace('{STATUS}',$status).replace('{MSG}',$message).replace('{PING}',$ping)
 
             # Output debug info
             Write-Host "  `$result=$result  `$status=$status  `$ping=$ping"
             Write-Host "  `$message=$message"
-            Write-Host "  `$notify_url_updated=$notify_url_updated"
+            Write-Host "  `$push_url_updated=$push_url_updated"
 
             # Send push notification to the server
             try{
-                $webrequest = Invoke-RestMethod -Uri $notify_url_updated
+                $webrequest = Invoke-RestMethod -Uri $push_url_updated
                 Write-Host "Push Response: $webrequest" -ForegroundColor Green
 
             }catch{
