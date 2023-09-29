@@ -44,12 +44,7 @@ function Test-Website {
         $result = $false
     }
 
-    If($result) {
-        $result = $result -like "*$sSearch*"
-        If($result -and $sSearch -eq "") {
-            $result = $true
-        }
-    }
+    If ($result) { $result = $result -like "*$sSearch*" }
 
     return $result
 }
