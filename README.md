@@ -38,7 +38,7 @@ Find out more about Uptime Kuma: https://github.com/louislam/uptime-kuma
 
 ## Configuration Settings
 
-### Push URL
+### Push_URL
 The URL is based on the one from the Uptime Kuma monitor settings page (after creation), for most people the only thing that will change from the example URL is the domain. Do NOT remove the {VARIABLES} from the example, they are required for the script to insert data during individual tests.
 ```
 https://myuptimekuma.host/api/push/{ID}?status={STATUS}&msg={MSG}&ping={PING}
@@ -47,7 +47,7 @@ https://myuptimekuma.host/api/push/{ID}?status={STATUS}&msg={MSG}&ping={PING}
 ### Loop
 The "loop" setting, if true, will restart the tests forever and use loop_delay (seconds) between each run. If you use this option, you should only configure your scheduled task to run once on startup. Alternatively you can set loop to false and create a scheduled task that repeats once per minute fover.
 
-### Push If Down
+### Push_If_Down
 The setting "push_if_down", if true, will send a notification to Uptime Kuma when a test fails, this is the default and doesn't need to be changed normally. If you set this to false, Uptime Kuma will not get a notification but the heartbeat/retries settings on Uptime Kuma will still determine an issue exists.
 
 ## Configuration Monitors
