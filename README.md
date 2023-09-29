@@ -14,10 +14,8 @@ Find out more about Uptime Kuma: https://github.com/louislam/uptime-kuma
 2. Copy the script and example json configuration file to your preferred location on a server or machine that will always be running, make sure the .ps1 file and .json file have the same name
 3. Edit the configuration with the monitors you want to use, use the example file to see what options you have and where to place data
 4. Setup a scheduled task to run the script at your preferred interval or on startup (this will depend on your monitor setup on Uptime Kuma, please read about the 'loop' setting)
-   
-## Configuration Settings
 
-## Sample
+## Configuration Sample
 ```JSON
 {
     "settings":{
@@ -37,6 +35,9 @@ Find out more about Uptime Kuma: https://github.com/louislam/uptime-kuma
 }
 
 ```
+
+## Configuration Settings
+
 ### Push URL
 The URL is based on the one from the Uptime Kuma monitor settings page (after creation), for most people the only thing that will change from the example URL is the domain. Do NOT remove the {VARIABLES} from the example, they are required for the script to insert data during individual tests.
 ```
