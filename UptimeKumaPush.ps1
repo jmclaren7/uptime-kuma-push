@@ -72,6 +72,8 @@ function Test-Host {
     return $result
 }
 
+# Force TLS 1.2 for older Windows versions
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 #==============================================================================
 #==============================================================================
