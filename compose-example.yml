@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+    fortigate-script:
+        image: mcr.microsoft.com/powershell
+        volumes:
+            - ./data:/data
+        restart: always
+        environment:
+            TZ: America/New_York
+        entrypoint: /usr/bin/pwsh -File /data/UptimeKumaPush.ps1
