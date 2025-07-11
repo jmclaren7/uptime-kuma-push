@@ -8,7 +8,7 @@
     },
     "monitors":[
         {"id": "2e7mMkKP873", "type": "ping", "host": "8.8.8.8"},
-        {"id": "9ibuQC6pcWX", "type": "port", "host": "ss64.com", "port": 22},
+        {"id": "9ibuQC6pcWX", "type": "port", "host": "github.com", "port": 22},
         {"id": "mHY9sbhASAP", "type": "website", "host": "https://ss64.com/ps/get-help.html", "search": "Syntax"},
         {"id": "GSgX3MyQ5T7", "group":[
             {"type": "ping", "host": "1.1.1.1"},
